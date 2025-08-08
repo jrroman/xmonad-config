@@ -1,0 +1,3 @@
+$ /home/jrroman/.xmonad/build /home/jrroman/.xmonad/xmonad-x86_64-linux
+Stack has not been tested with GHC versions above 9.0, and using 9.4.7, this may fail
+Stack has not been tested with Cabal versions above 3.4, but version 3.8.1.0 was found, this may fail
