@@ -1,7 +1,7 @@
 import XMonad
 
 import XMonad.Util.EZConfig (additionalKeys, additionalKeysP)
-import XMonad.Util.Ungrab
+import XMonad.Operations (unGrab)
 import Graphics.X11.ExtraTypes.XF86
 -- Layout
 import XMonad.Layout.Spacing
@@ -17,7 +17,7 @@ main :: IO ()
 main = xmonad . ewmhFullscreen . ewmh . xmobarProp $ myConfig
 
 myConfig = def
-    { terminal   = "alacritty"
+    { terminal   = "ghostty"
     , layoutHook = smartSpacing 2 $ myLayout
     }
   `additionalKeysP`
@@ -25,7 +25,7 @@ myConfig = def
     , ("M-S-s", spawn "systemctl suspend")
     , ("M-S-o", spawn "obsidian")
     , ("M-d", spawn "dbeaver-ce")
-    , ("M-f", spawn "firefox")
+    , ("M-f", spawn "zen")
     , ("M-s", spawn "slack")
     , ("M-m", spawn "spotify")
     , ("M-z", spawn "zoom")
