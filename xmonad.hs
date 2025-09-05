@@ -25,12 +25,13 @@ myConfig = def
     [ ("M-S-z", spawn "xscreensaver-command -lock")
     , ("M-S-s", spawn "systemctl suspend")
     , ("M-S-o", spawn "obsidian")
+    , ("M-S-p", spawn "scrot -s")
+    , ("M-S-n", spawn "nm-connection-editor")
     , ("M-d", spawn "dbeaver-ce")
     , ("M-f", spawn "zen")
     , ("M-s", spawn "slack")
     , ("M-m", spawn "spotify")
     , ("M-z", spawn "zoom")
-    , ("M-S-p", spawn "scrot -s")
     , ("M-p", spawn "rofi -show run")
     ]
   `additionalKeys`
