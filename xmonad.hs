@@ -6,6 +6,7 @@ import Graphics.X11.ExtraTypes.XF86
 -- Layout
 import XMonad.Layout.Spacing
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.ResizableTile
 -- Hooks
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.DynamicLog
@@ -29,7 +30,7 @@ myConfig = def
     , ("M-s", spawn "slack")
     , ("M-m", spawn "spotify")
     , ("M-z", spawn "zoom")
-    , ("M-<Print>", spawn "scrot -s")
+    , ("M-S-p", spawn "scrot -s")
     ]
   `additionalKeys`
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 2%-")
@@ -42,7 +43,7 @@ myConfig = def
 myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol
   where
     threeCol = ThreeColMid nmaster delta ratio
-    tiled    = Tall nmaster delta ratio
+    tiled    = ResizableTall nmaster delta ratio []
     nmaster  = 1      -- Default number of windows in the master pane
     ratio    = 1/2    -- Default proportion of screen occupied by master pane
     delta    = 3/100  -- Percent of screen to increment by when resizing panes
