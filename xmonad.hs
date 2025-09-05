@@ -31,6 +31,7 @@ myConfig = def
     , ("M-m", spawn "spotify")
     , ("M-z", spawn "zoom")
     , ("M-S-p", spawn "scrot -s")
+    , ("M-p", spawn "rofi -show run")
     ]
   `additionalKeys`
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 2%-")
