@@ -18,7 +18,7 @@ main :: IO ()
 main = xmonad . ewmhFullscreen . ewmh . xmobarProp $ myConfig
 
 myConfig = def
-    { terminal   = "ghostty"
+    { terminal   = "alacritty" -- Alacritty or Ghostty
     , layoutHook = smartSpacing 2 $ myLayout
     }
   `additionalKeysP`
