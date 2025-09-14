@@ -12,6 +12,14 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
+import XMonad.Hooks.SetWMName
+import XMonad.Actions.SpawnOn
+import XMonad.Actions.WindowGo
+import XMonad.Actions.CycleWS
+-- Scratchpads
+import XMonad.Util.NamedScratchpad
+import XMonad.ManageHook
+import XMonad.StackSet as W
 
 
 main :: IO ()
@@ -19,10 +27,12 @@ main = xmonad . ewmhFullscreen . ewmh . xmobarProp $ myConfig
 
 myConfig = def
     { terminal   = "alacritty" -- Alacritty or Ghostty
+    , manageHook = myManageHook
+    , startupHook = myStartupHook
     , layoutHook = smartSpacing 2 $ myLayout
     }
   `additionalKeysP`
-    [ ("M-S-z", spawn "xscreensaver-command -lock")
+    [ ("M-S-l", spawn "xscreensaver-command -lock")
     , ("M-S-s", spawn "systemctl suspend")
     , ("M-S-o", spawn "obsidian")
     , ("M-S-p", spawn "scrot -s")
@@ -33,6 +43,7 @@ myConfig = def
     , ("M-m", spawn "spotify")
     , ("M-z", spawn "zoom")
     , ("M-p", spawn "rofi -show run")
+    , ("M-a", openScratchpad "terminal")
     ]
   `additionalKeys`
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 2%-")
@@ -40,6 +51,34 @@ myConfig = def
     , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
     , ((0, xF86XK_MonBrightnessUp), spawn "backlightctl -set 2%+")
     , ((0, xF86XK_MonBrightnessDown), spawn "backlightctl -set 2%+")
+    ]
+
+myScratchpads :: [NamedScratchpad]
+myScratchpads = [terminal]
+    where
+        terminal = NS "terminal" spawn find manage
+            where
+                spawn = "alacritty --class scratchpad"
+                find = className =? "scratchpad"
+                manage = customFloating $ rectCentered 0.7
+
+openScratchpad :: String -> X ()
+openScratchpad = namedScratchpadAction myScratchpads
+
+myManageHook :: ManageHook
+myManageHook = composeAll
+    [ namedScratchpadManageHook myScratchpads
+    ]
+
+rectCentered :: Rational -> W.RationalRect
+rectCentered percentage = W.RationalRect offset offset percentage percentage
+    where
+        offset = (1 - percentage) / 2
+
+myStartupHook :: X ()
+myStartupHook = composeAll
+    [ setWMName "jr"
+    , spawnOn "1" "alacritty --daemon"
     ]
 
 myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol
