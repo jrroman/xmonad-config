@@ -58,7 +58,7 @@ myScratchpads = [terminal]
   where
     terminal = NS "terminal" spawn find manage
       where
-        spawn = "alacritty --class scratchpad"
+        spawn = "alacritty --class scratchpad -e tmux new -s scratchpad -A"
         find = className =? "scratchpad"
         manage = customFloating $ rectCentered 0.6
 
