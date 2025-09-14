@@ -26,11 +26,11 @@ main :: IO ()
 main = xmonad . ewmhFullscreen . ewmh . xmobarProp $ myConfig
 
 myConfig = def
-    { terminal   = "alacritty" -- Alacritty or Ghostty
-    , manageHook = myManageHook
-    , startupHook = myStartupHook
-    , layoutHook = smartSpacing 2 $ myLayout
-    }
+  { terminal   = "alacritty" -- Alacritty or Ghostty
+  , manageHook = myManageHook
+  , startupHook = myStartupHook
+  , layoutHook = smartSpacing 2 $ myLayout
+  }
   `additionalKeysP`
     [ ("M-S-l", spawn "xscreensaver-command -lock")
     , ("M-S-s", spawn "systemctl suspend")
@@ -55,31 +55,31 @@ myConfig = def
 
 myScratchpads :: [NamedScratchpad]
 myScratchpads = [terminal]
-    where
-        terminal = NS "terminal" spawn find manage
-            where
-                spawn = "alacritty --class scratchpad"
-                find = className =? "scratchpad"
-                manage = customFloating $ rectCentered 0.7
+  where
+    terminal = NS "terminal" spawn find manage
+      where
+        spawn = "alacritty --class scratchpad"
+        find = className =? "scratchpad"
+        manage = customFloating $ rectCentered 0.6
 
 openScratchpad :: String -> X ()
 openScratchpad = namedScratchpadAction myScratchpads
 
 myManageHook :: ManageHook
 myManageHook = composeAll
-    [ namedScratchpadManageHook myScratchpads
-    ]
+  [ namedScratchpadManageHook myScratchpads
+  ]
 
 rectCentered :: Rational -> W.RationalRect
 rectCentered percentage = W.RationalRect offset offset percentage percentage
-    where
-        offset = (1 - percentage) / 2
+  where
+    offset = (1 - percentage) / 2
 
 myStartupHook :: X ()
 myStartupHook = composeAll
-    [ setWMName "jr"
-    , spawnOn "1" "alacritty --daemon"
-    ]
+  [ setWMName "jr"
+  , spawnOn "1" "alacritty --daemon"
+  ]
 
 myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol
   where
