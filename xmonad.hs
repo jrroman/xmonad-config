@@ -93,7 +93,6 @@ myPromptConfig = def {
   , showCompletionOnTab = True
 }
 
-
 colors :: Colors
 colors =
   Colors
