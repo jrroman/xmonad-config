@@ -22,7 +22,7 @@ import XMonad.Prompt.Shell
 -- Scratchpads
 import XMonad.Util.NamedScratchpad
 import XMonad.ManageHook
-import XMonad.StackSet as W
+import qualified XMonad.StackSet as W
 
 myTerminal :: String
 myTerminal = "alacritty" -- Alacritty or Ghostty
@@ -49,6 +49,7 @@ myConfig = def
     , ("M-p", spawn "rofi -show run")
     , ("M-a", openScratchpad "terminal")
     , ("M-t", shellPrompt myPromptConfig)
+    , ("M-w", withFocused $ toggleFloat $ rectCentered 0.9)
     ]
   `additionalKeys`
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 2%-")
@@ -92,6 +93,15 @@ myPromptConfig = def {
   , maxComplRows = Just 5
   , showCompletionOnTab = True
 }
+
+toggleFloat :: W.RationalRect -> Window -> X ()
+toggleFloat r w =
+  windows
+    ( \s ->
+      if member w (W.floating s)
+        then W.sink w s
+        else W.float w r s
+    )
 
 colors :: Colors
 colors =
