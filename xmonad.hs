@@ -50,6 +50,7 @@ myConfig = def
     , ("M-a", openScratchpad "terminal")
     , ("M-t", shellPrompt myPromptConfig)
     , ("M-w", withFocused $ toggleFloat $ rectCentered 0.9)
+    , ("M-S-w", withFocused $ toggleFloat $ vertRectCentered 0.9)
     ]
   `additionalKeys`
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 2%-")
@@ -66,7 +67,7 @@ myScratchpads = [terminal]
       where
         spawn = myTerminal ++ " --class scratchpad -e tmux new -s scratchpad -A"
         find = className =? "scratchpad"
-        manage = customFloating $ rectCentered 0.6
+        manage = customFloating $ vertRectCentered 0.9
 
 openScratchpad :: String -> X ()
 openScratchpad = namedScratchpadAction myScratchpads
@@ -80,6 +81,13 @@ rectCentered :: Rational -> W.RationalRect
 rectCentered percentage = W.RationalRect offset offset percentage percentage
   where
     offset = (1 - percentage) / 2
+
+vertRectCentered :: Rational -> W.RationalRect
+vertRectCentered height = W.RationalRect offsetX offsetY width height
+  where
+    width = height / 2
+    offsetX = (1 - width) / 2
+    offsetY = (1 - height) / 2
 
 myPromptConfig :: XPConfig
 myPromptConfig = def {
