@@ -50,7 +50,7 @@ myConfig = def
     , ("M-a", openScratchpad "terminal")
     , ("M-t", shellPrompt myPromptConfig)
     , ("M-w", withFocused $ toggleFloat $ rectCentered 0.9)
-    , ("M-S-w", withFocused $ toggleFloat $ vertRectCentered 0.9)
+    , ("M-S-w", withFocused $ toggleFloat $ vertRectCentered 0.95)
     ]
   `additionalKeys`
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 2%-")
