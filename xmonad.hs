@@ -85,7 +85,7 @@ rectCentered percentage = W.RationalRect offset offset percentage percentage
 vertRectCentered :: Rational -> W.RationalRect
 vertRectCentered height = W.RationalRect offsetX offsetY width height
   where
-    width = height / 2
+    width = height / 1.5
     offsetX = (1 - width) / 2
     offsetY = (1 - height) / 2
 
