@@ -48,7 +48,7 @@ myConfig = def
     , ("M-m", spawn "spotify")
     , ("M-p", spawn "rofi -show run")
     , ("M-a", openScratchpad "terminal")
-    , ("M-S-a", openScratchpad "emacs")
+    , ("M-e", openScratchpad "emacs")
     , ("M-t", shellPrompt myPromptConfig)
     , ("M-w", withFocused $ toggleFloat $ rectCentered 0.9)
     , ("M-S-w", withFocused $ toggleFloat $ vertRectCentered 0.95)
