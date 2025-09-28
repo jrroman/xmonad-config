@@ -33,7 +33,7 @@ main :: IO ()
 main = xmonad . ewmhFullscreen . ewmh . xmobarProp $ myConfig
 
 myConfig = def
-  { terminal   = myTerminal
+  { terminal   = myTerminal ++ " msg create-window"
   , manageHook = myManageHook
   , startupHook = myStartupHook
   , layoutHook = smartSpacing 2 $ myLayout
@@ -48,6 +48,7 @@ myConfig = def
     , ("M-m", spawn "spotify")
     , ("M-p", spawn "rofi -show run")
     , ("M-a", openScratchpad "terminal")
+    , ("M-S-a", openScratchpad "emacs")
     , ("M-t", shellPrompt myPromptConfig)
     , ("M-w", withFocused $ toggleFloat $ rectCentered 0.9)
     , ("M-S-w", withFocused $ toggleFloat $ vertRectCentered 0.95)
@@ -61,12 +62,17 @@ myConfig = def
     ]
 
 myScratchpads :: [NamedScratchpad]
-myScratchpads = [terminal]
+myScratchpads = [terminal, emacs]
   where
     terminal = NS "terminal" spawn find manage
       where
-        spawn = myTerminal ++ " --class scratchpad -e tmux new -s scratchpad -A"
-        find = className =? "scratchpad"
+        spawn = myTerminal ++ " msg create-window --class alacritty-scratchpad -e tmux new -s scratchpad -A"
+        find = className =? "alacritty-scratchpad"
+        manage = customFloating $ vertRectCentered 0.9
+    emacs = NS "emacs" spawn find manage
+      where
+        spawn = "emacsclient -r -F '((title . \"emacs-scratchpad\"))'"
+        find = title =? "emacs-scratchpad"
         manage = customFloating $ vertRectCentered 0.9
 
 openScratchpad :: String -> X ()
@@ -153,6 +159,7 @@ myStartupHook :: X ()
 myStartupHook = composeAll
   [ setWMName "jr"
   , spawnOn "1" "alacritty --daemon"
+  , spawnOn "1" "emacs --daemon"
   ]
 
 myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol
