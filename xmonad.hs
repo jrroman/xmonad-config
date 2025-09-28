@@ -26,6 +26,8 @@ import qualified XMonad.StackSet as W
 
 myTerminal :: String
 myTerminal = "alacritty" -- Alacritty or Ghostty
+createTerminalCmd :: String
+createTerminalCmd = myTerminal ++ " msg create-window"
 myFont :: String
 myFont = "xft:DejaVuSansM Nerd Font Mono:weight=regular:pixelsize=16:antialias=true:hinting=true"
 
@@ -33,7 +35,7 @@ main :: IO ()
 main = xmonad . ewmhFullscreen . ewmh . xmobarProp $ myConfig
 
 myConfig = def
-  { terminal   = myTerminal ++ " msg create-window"
+  { terminal   = createTerminalCmd
   , manageHook = myManageHook
   , startupHook = myStartupHook
   , layoutHook = smartSpacing 2 $ myLayout
@@ -66,8 +68,8 @@ myScratchpads = [terminal, emacs]
   where
     terminal = NS "terminal" spawn find manage
       where
-        spawn = myTerminal ++ " msg create-window --class alacritty-scratchpad -e tmux new -s scratchpad -A"
-        find = className =? "alacritty-scratchpad"
+        spawn = createTerminalCmd ++ " --title alacritty-scratchpad -e tmux new -s scratchpad -A"
+        find = title =? "alacritty-scratchpad"
         manage = customFloating $ vertRectCentered 0.9
     emacs = NS "emacs" spawn find manage
       where
