@@ -73,7 +73,7 @@ myScratchpads = [terminal, emacs]
       where
         spawn = "emacsclient -r -F '((title . \"emacs-scratchpad\"))'"
         find = title =? "emacs-scratchpad"
-        manage = customFloating $ vertRectCentered 0.9
+        manage = customFloating $ vertRectCentered 0.95
 
 openScratchpad :: String -> X ()
 openScratchpad = namedScratchpadAction myScratchpads
