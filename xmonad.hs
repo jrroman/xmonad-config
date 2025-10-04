@@ -171,7 +171,7 @@ myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol ||| dwindle
   where
     threeCol = ThreeColMid nmaster delta ratio
     tiled    = ResizableTall nmaster delta ratio []
-    dwindle  = Dwindle R CW 1.5 1.1
+    dwindle  = Dwindle L CW 1.5 1.1
     nmaster  = 1      -- Default number of windows in the master pane
     ratio    = 1/2    -- Default proportion of screen occupied by master pane
     delta    = 3/100  -- Percent of screen to increment by when resizing panes
