@@ -1,9 +1,9 @@
 import XMonad
 
-import Data.Map
-import XMonad.Util.EZConfig (additionalKeys, additionalKeysP)
+import qualified Data.Map as M
 import XMonad.Operations (unGrab)
 import Graphics.X11.ExtraTypes.XF86
+import Prelude hiding (magenta, blue, white, yellow, red)
 -- Layout
 import XMonad.Layout.Spacing
 import XMonad.Layout.ThreeColumns
@@ -11,17 +11,20 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.Dwindle
 -- Hooks
 import XMonad.Hooks.EwmhDesktops
-import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.SetWMName
+-- Actions
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
 import XMonad.Actions.CycleWS
+-- Prompts
 import XMonad.Prompt
 import XMonad.Prompt.Shell
--- Scratchpads
+-- Utils
 import XMonad.Util.NamedScratchpad
+import XMonad.Util.EZConfig (additionalKeys, additionalKeysP)
+import XMonad.Util.Loggers (logTitles)
 import XMonad.ManageHook
 import qualified XMonad.StackSet as W
 
@@ -31,9 +34,6 @@ createTerminalCmd :: String
 createTerminalCmd = myTerminal ++ " msg create-window"
 myFont :: String
 myFont = "xft:DejaVuSansM Nerd Font Mono:weight=regular:pixelsize=16:antialias=true:hinting=true"
-
-main :: IO ()
-main = xmonad . ewmhFullscreen . ewmh . xmobarProp $ myConfig
 
 myConfig = def
   { terminal   = createTerminalCmd
@@ -117,7 +117,7 @@ toggleFloat :: W.RationalRect -> Window -> X ()
 toggleFloat r w =
   windows
     ( \s ->
-      if member w (W.floating s)
+      if M.member w (W.floating s)
         then W.sink w s
         else W.float w r s
     )
@@ -175,3 +175,37 @@ myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol ||| dwindle
     nmaster  = 1      -- Default number of windows in the master pane
     ratio    = 1/2    -- Default proportion of screen occupied by master pane
     delta    = 3/100  -- Percent of screen to increment by when resizing panes
+
+-- XMobar configuration using the new statusBar API
+myXmobarPP :: PP
+myXmobarPP = def
+  { ppSep             = magenta " • "
+  , ppTitleSanitize   = xmobarStrip
+  , ppCurrent         = wrap " " "" . xmobarBorder "Top" "#cd8b00" 2
+  , ppHidden          = white . wrap " " ""
+  , ppHiddenNoWindows = lowWhite . wrap " " ""
+  , ppUrgent          = red . wrap (yellow "!") (yellow "!")
+  , ppOrder           = \[ws, l, _, wins] -> [ws, l, wins]
+  , ppExtras          = [logTitles formatFocused formatUnfocused]
+  }
+  where
+    formatFocused   = wrap (white    "[") (white    "]") . yellow . ppWindow
+    formatUnfocused = wrap (lowWhite "[") (lowWhite "]") . blue   . ppWindow
+
+    ppWindow :: String -> String
+    ppWindow = xmobarRaw . (\w -> if Prelude.null w then "untitled" else w) . shorten 30
+
+    blue, lowWhite, magenta, red, white, yellow :: String -> String
+    magenta  = xmobarColor (Main.magenta $ normal colors) ""
+    blue     = xmobarColor (Main.blue $ normal colors) ""
+    white    = xmobarColor (Main.white $ normal colors) ""
+    yellow   = xmobarColor (Main.yellow $ normal colors) ""
+    red      = xmobarColor (Main.red $ normal colors) ""
+    lowWhite = xmobarColor "#bbbbbb" ""
+
+main :: IO ()
+main = xmonad
+     . ewmhFullscreen
+     . ewmh
+     . withEasySB (statusBarProp "xmobar ~/.config/xmobar/xmobarrc" (pure myXmobarPP)) defToggleStrutsKey
+     $ myConfig
