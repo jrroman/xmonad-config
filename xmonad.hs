@@ -8,6 +8,7 @@ import Graphics.X11.ExtraTypes.XF86
 import XMonad.Layout.Spacing
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.Dwindle
 -- Hooks
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.DynamicLog
@@ -39,12 +40,14 @@ myConfig = def
   , manageHook = myManageHook
   , startupHook = myStartupHook
   , layoutHook = smartSpacing 2 $ myLayout
+  , borderWidth = 2
+  , normalBorderColor  = "#cccccc"
+  , focusedBorderColor = "#cd8b00"
   }
   `additionalKeysP`
     [ ("M-S-l", spawn "xscreensaver-command -lock")
     , ("M-S-s", spawn "systemctl suspend")
     , ("M-S-p", spawn "scrot -s -q 100 ~/Pictures/Screenshots/screenshot-%Y-%m-%d_%H:%M:%S.png")
-    , ("M-S-n", spawn "nm-connection-editor")
     , ("M-d", spawn "dbeaver-ce")
     , ("M-f", spawn "zen")
     , ("M-m", spawn "spotify")
@@ -164,10 +167,11 @@ myStartupHook = composeAll
   , spawnOn "1" "emacs --daemon"
   ]
 
-myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol
+myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol ||| dwindle
   where
     threeCol = ThreeColMid nmaster delta ratio
     tiled    = ResizableTall nmaster delta ratio []
+    dwindle  = Dwindle R CW 1.5 1.1
     nmaster  = 1      -- Default number of windows in the master pane
     ratio    = 1/2    -- Default proportion of screen occupied by master pane
     delta    = 3/100  -- Percent of screen to increment by when resizing panes
