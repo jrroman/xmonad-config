@@ -167,7 +167,7 @@ myStartupHook = composeAll
   , spawnOn "1" "emacs --daemon"
   ]
 
-myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol ||| dwindle
+myLayout = dwindle ||| tiled ||| Mirror tiled ||| Full ||| threeCol
   where
     threeCol = ThreeColMid nmaster delta ratio
     tiled    = ResizableTall nmaster delta ratio []
