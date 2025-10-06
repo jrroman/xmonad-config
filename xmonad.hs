@@ -50,10 +50,10 @@ myConfig = def
     , ("M-S-p", spawn "scrot -s -q 100 ~/Pictures/Screenshots/screenshot-%Y-%m-%d_%H:%M:%S.png")
     , ("M-d", spawn "dbeaver-ce")
     , ("M-f", spawn "zen")
-    , ("M-m", spawn "spotify")
     , ("M-p", spawn "rofi -show run")
     , ("M-a", openScratchpad "terminal")
     , ("M-e", openScratchpad "emacs")
+    , ("M-m", openScratchpad "spotify")
     , ("M-t", shellPrompt myPromptConfig)
     , ("M-w", withFocused $ toggleFloat $ rectCentered 0.9)
     , ("M-S-w", withFocused $ toggleFloat $ vertRectCentered 0.95)
@@ -67,7 +67,7 @@ myConfig = def
     ]
 
 myScratchpads :: [NamedScratchpad]
-myScratchpads = [terminal, emacs]
+myScratchpads = [terminal, emacs, spotify]
   where
     terminal = NS "terminal" spawn find manage
       where
@@ -79,6 +79,11 @@ myScratchpads = [terminal, emacs]
         spawn = "emacsclient -r -F '((title . \"emacs-scratchpad\"))'"
         find = title =? "emacs-scratchpad"
         manage = customFloating $ vertRectCentered 0.95
+    spotify = NS "spotify" spawn find manage
+      where
+        spawn = "spotify"
+        find = className =? "Spotify"
+        manage = customFloating $ vertRectCentered 0.90
 
 openScratchpad :: String -> X ()
 openScratchpad = namedScratchpadAction myScratchpads
