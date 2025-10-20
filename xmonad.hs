@@ -1,5 +1,4 @@
 import XMonad
-
 import qualified Data.Map as M
 import XMonad.Operations (unGrab)
 import Graphics.X11.ExtraTypes.XF86
@@ -18,6 +17,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
 import XMonad.Actions.CycleWS
+import XMonad.Actions.WindowBringer
 -- Prompts
 import XMonad.Prompt
 import XMonad.Prompt.Shell
@@ -27,6 +27,7 @@ import XMonad.Util.EZConfig (additionalKeys, additionalKeysP)
 import XMonad.Util.Loggers (logTitles)
 import XMonad.ManageHook
 import qualified XMonad.StackSet as W
+
 
 myTerminal :: String
 myTerminal = "alacritty" -- Alacritty or Ghostty
@@ -56,6 +57,8 @@ myConfig = def
     , ("M-t", shellPrompt myPromptConfig)
     , ("M-w", withFocused $ toggleFloat $ rectCentered 0.9)
     , ("M-S-w", withFocused $ toggleFloat $ vertRectCentered 0.95)
+    , ("M-S-b", bringMenu)
+    , ("M-g", gotoMenu)
     ]
   `additionalKeys`
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 2%-")
