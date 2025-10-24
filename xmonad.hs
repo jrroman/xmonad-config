@@ -54,6 +54,7 @@ myConfig = def
     , ("M-a", openScratchpad "terminal")
     , ("M-e", openScratchpad "emacs")
     , ("M-m", openScratchpad "spotify")
+    , ("M-S-v", openScratchpad "vpn")
     , ("M-t", shellPrompt myPromptConfig)
     , ("M-w", withFocused $ toggleFloat $ rectCentered 0.9)
     , ("M-S-w", withFocused $ toggleFloat $ vertRectCentered 0.95)
@@ -69,7 +70,7 @@ myConfig = def
     ]
 
 myScratchpads :: [NamedScratchpad]
-myScratchpads = [terminal, emacs, spotify]
+myScratchpads = [terminal, emacs, spotify, protonvpn]
   where
     terminal = NS "terminal" spawn find manage
       where
@@ -85,6 +86,11 @@ myScratchpads = [terminal, emacs, spotify]
       where
         spawn = "spotify"
         find = className =? "Spotify"
+        manage = customFloating $ vertRectCentered 0.90
+    protonvpn = NS "vpn" spawn find manage
+      where
+        spawn = "protonvpn-app"
+        find = title =? "Proton VPN"
         manage = customFloating $ vertRectCentered 0.90
 
 openScratchpad :: String -> X ()
