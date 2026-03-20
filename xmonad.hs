@@ -30,9 +30,11 @@ import qualified XMonad.StackSet as W
 
 
 myTerminal :: String
-myTerminal = "alacritty" -- Alacritty or Ghostty
+-- myTerminal = "alacritty" -- Alacritty or Ghostty
+myTerminal = "ghostty" 
 createTerminalCmd :: String
-createTerminalCmd = myTerminal ++ " msg create-window"
+-- createTerminalCmd = myTerminal ++ " msg create-window"
+createTerminalCmd = myTerminal
 myFont :: String
 myFont = "xft:DejaVuSansM Nerd Font Mono:weight=regular:pixelsize=16:antialias=true:hinting=true"
 
@@ -69,13 +71,14 @@ myConfig = def
     , ((0, xF86XK_MonBrightnessDown), spawn "lux -s 10%")
     ]
 
+--        spawn = createTerminalCmd ++ " --title ghostty-scratchpad -e tmux new -s scratchpad -A"
 myScratchpads :: [NamedScratchpad]
 myScratchpads = [terminal, emacs, spotify, protonvpn]
   where
     terminal = NS "terminal" spawn find manage
       where
-        spawn = createTerminalCmd ++ " --title alacritty-scratchpad -e tmux new -s scratchpad -A"
-        find = title =? "alacritty-scratchpad"
+        spawn = myTerminal ++ " --title=ghostty-scratchpad -e tmux new -s scratchpad -A"
+        find = title =? "ghostty-scratchpad"
         manage = customFloating $ vertRectCentered 0.9
     emacs = NS "emacs" spawn find manage
       where
@@ -176,9 +179,9 @@ data RegularColors = RegularColors
 myStartupHook :: X ()
 myStartupHook = composeAll
   [ setWMName "jr"
-  , spawnOn "1" "alacritty --daemon"
   , spawnOn "1" "emacs --daemon"
   ]
+  -- , spawnOn "1" "alacritty --daemon"
 
 myLayout = dwindle ||| dwindleR ||| tiled ||| Mirror tiled ||| Full ||| threeCol
   where
