@@ -85,7 +85,7 @@ myScratchpads = [terminal, obsidian, emacs, spotify, protonvpn]
       where
         spawn = "obsidian"
         find = className =? "obsidian"
-        manage = customFloating $ vertRectCentered 0.9
+        manage = customFloating $ vertRectCentered 0.8
     emacs = NS "emacs" spawn find manage
       where
         spawn = "emacsclient -r -F '((title . \"emacs-scratchpad\"))'"
