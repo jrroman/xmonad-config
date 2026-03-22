@@ -54,6 +54,7 @@ myConfig = def
     , ("M-f", spawn "zen")
     , ("M-p", spawn "rofi -show run")
     , ("M-a", openScratchpad "terminal")
+    , ("M-o", openScratchpad "obsidian")
     , ("M-e", openScratchpad "emacs")
     , ("M-m", openScratchpad "spotify")
     , ("M-S-v", openScratchpad "vpn")
@@ -73,12 +74,17 @@ myConfig = def
 
 --        spawn = createTerminalCmd ++ " --title ghostty-scratchpad -e tmux new -s scratchpad -A"
 myScratchpads :: [NamedScratchpad]
-myScratchpads = [terminal, emacs, spotify, protonvpn]
+myScratchpads = [terminal, obsidian, emacs, spotify, protonvpn]
   where
     terminal = NS "terminal" spawn find manage
       where
         spawn = myTerminal ++ " --title=ghostty-scratchpad -e tmux new -s scratchpad -A"
         find = title =? "ghostty-scratchpad"
+        manage = customFloating $ vertRectCentered 0.9
+    obsidian = NS "obsidian" spawn find manage
+      where
+        spawn = "obsidian"
+        find = className =? "obsidian"
         manage = customFloating $ vertRectCentered 0.9
     emacs = NS "emacs" spawn find manage
       where
