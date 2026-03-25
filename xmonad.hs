@@ -30,11 +30,15 @@ import qualified XMonad.StackSet as W
 
 
 myTerminal :: String
--- myTerminal = "alacritty" -- Alacritty or Ghostty
 myTerminal = "ghostty" 
+-- myTerminal = "alacritty" -- Alacritty or Ghostty
+
+-- Open a ghostty terminal and create or attach to session jr. It should just
+-- attach since we create the tmux session in our startup hook
 createTerminalCmd :: String
+createTerminalCmd = myTerminal ++ " -e tmux new -A -s jr"
 -- createTerminalCmd = myTerminal ++ " msg create-window"
-createTerminalCmd = myTerminal
+
 myFont :: String
 myFont = "xft:DejaVuSansM Nerd Font Mono:weight=regular:pixelsize=16:antialias=true:hinting=true"
 
@@ -186,6 +190,7 @@ myStartupHook :: X ()
 myStartupHook = composeAll
   [ setWMName "jr"
   , spawnOn "1" "emacs --daemon"
+  , spawn "tmux has-session -t jr 2>/dev/null || tmux new -d -s jr -n workspace -c ~/workspace \\; new-window -n scratch -c ~/workspace \\; new-window -c ~/workspace"
   ]
   -- , spawnOn "1" "alacritty --daemon"
 
