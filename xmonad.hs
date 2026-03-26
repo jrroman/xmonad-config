@@ -56,7 +56,7 @@ myConfig = def
     , ("M-S-s", spawn "systemctl suspend")
     , ("M-S-p", spawn "scrot -s -q 100 ~/Pictures/Screenshots/screenshot-%Y-%m-%d_%H:%M:%S.png")
     , ("M-f", spawn "zen")
-    , ("M-p", spawn "rofi -show run")
+    -- , ("M-p", spawn "rofi -show run")
     , ("M-a", openScratchpad "terminal")
     , ("M-o", openScratchpad "obsidian")
     , ("M-e", openScratchpad "emacs")
