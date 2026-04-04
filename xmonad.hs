@@ -39,6 +39,9 @@ createTerminalCmd :: String
 createTerminalCmd = myTerminal ++ " -e tmux new -A -s jr"
 -- createTerminalCmd = myTerminal ++ " msg create-window"
 
+myBrowser :: String
+myBrowser = "firefox-devedition"
+
 myFont :: String
 myFont = "xft:DejaVuSansM Nerd Font Mono:weight=regular:pixelsize=16:antialias=true:hinting=true"
 
@@ -55,7 +58,7 @@ myConfig = def
     [ ("M-S-l", spawn "xscreensaver-command -lock")
     , ("M-S-s", spawn "systemctl suspend")
     , ("M-S-p", spawn "scrot -s -q 100 ~/Pictures/Screenshots/screenshot-%Y-%m-%d_%H:%M:%S.png")
-    , ("M-f", spawn "zen")
+    , ("M-f", spawn myBrowser)
     -- , ("M-p", spawn "rofi -show run")
     , ("M-a", openScratchpad "terminal")
     , ("M-o", openScratchpad "obsidian")
