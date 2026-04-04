@@ -75,8 +75,8 @@ myConfig = def
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 2%-")
     , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q sset Master 2%+")
     , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
-    , ((0, xF86XK_MonBrightnessUp), spawn "lux -a 10%")
-    , ((0, xF86XK_MonBrightnessDown), spawn "lux -s 10%")
+    , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl set 10%-")
+    , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl set 10%-")
     ]
 
 --        spawn = createTerminalCmd ++ " --title ghostty-scratchpad -e tmux new -s scratchpad -A"
