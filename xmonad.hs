@@ -36,7 +36,7 @@ myTerminal = "ghostty"
 -- Open a ghostty terminal and create or attach to session jr. It should just
 -- attach since we create the tmux session in our startup hook
 createTerminalCmd :: String
-createTerminalCmd = myTerminal ++ " -e tmux new -A -s jr"
+createTerminalCmd = myTerminal ++ " +new-window -e tmux new -A -s jr"
 -- createTerminalCmd = myTerminal ++ " msg create-window"
 
 myBrowser :: String
@@ -85,7 +85,7 @@ myScratchpads = [terminal, obsidian, emacs, spotify, protonvpn]
   where
     terminal = NS "terminal" spawn find manage
       where
-        spawn = myTerminal ++ " --title=ghostty-scratchpad -e tmux new -s scratchpad -A"
+        spawn = myTerminal ++ " +new-window --title=ghostty-scratchpad -e tmux new -s scratchpad -A"
         find = title =? "ghostty-scratchpad"
         manage = customFloating $ vertRectCentered 0.9
     obsidian = NS "obsidian" spawn find manage
