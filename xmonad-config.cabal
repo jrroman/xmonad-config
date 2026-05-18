@@ -1,0 +1,23 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.38.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           xmonad-config
+version:        0.1.0.0
+build-type:     Simple
+
+executable xmonad
+  main-is: xmonad.hs
+  other-modules:
+      Paths_xmonad_config
+  hs-source-dirs:
+      ./
+  build-depends:
+      X11
+    , base
+    , containers
+    , xmonad
+    , xmonad-contrib
+  default-language: Haskell2010

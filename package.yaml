@@ -1,0 +1,14 @@
+name: xmonad-config
+version: 0.1.0.0
+
+dependencies:
+  - base
+  - xmonad
+  - xmonad-contrib
+  - containers      # Added for Data.Map
+  - X11             # Added for Graphics.X11.ExtraTypes.XF86
+
+executables:
+  xmonad:
+    main: xmonad.hs
+    source-dirs: .
