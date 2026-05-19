@@ -31,13 +31,11 @@ import qualified XMonad.StackSet as W
 
 myTerminal :: String
 myTerminal = "ghostty" 
--- myTerminal = "alacritty" -- Alacritty or Ghostty
 
 -- Open a ghostty terminal and create or attach to session jr. It should just
 -- attach since we create the tmux session in our startup hook
 createTerminalCmd :: String
 createTerminalCmd = myTerminal ++ " +new-window -e tmux new -A -s jr"
--- createTerminalCmd = myTerminal ++ " msg create-window"
 
 myBrowser :: String
 myBrowser = "firefox-devedition"
@@ -75,8 +73,8 @@ myConfig = def
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 2%-")
     , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q sset Master 2%+")
     , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
-    , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl set +10%")
-    , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl set 10%-")
+    , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl set +5%")
+    , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl set 5%-")
     ]
 
 --        spawn = createTerminalCmd ++ " --title ghostty-scratchpad -e tmux new -s scratchpad -A"
@@ -195,7 +193,6 @@ myStartupHook = composeAll
   , spawnOn "1" "emacs --daemon"
   , spawn "tmux has-session -t jr 2>/dev/null || tmux new -d -s jr -n workspace -c ~/workspace \\; new-window -n scratch -c ~/workspace \\; new-window -c ~/workspace"
   ]
-  -- , spawnOn "1" "alacritty --daemon"
 
 myLayout = dwindle ||| dwindleR ||| tiled ||| Mirror tiled ||| Full ||| threeCol
   where
